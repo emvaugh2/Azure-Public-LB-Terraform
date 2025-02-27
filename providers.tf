@@ -13,4 +13,5 @@ terraform {
 # This is a required block for the Azure RM provider. Include this with every file. 
 provider "azurerm" {
     features {}
+    subscription_id = "e3110257-2243-4023-af5e-714fe2c7daae"
 }
