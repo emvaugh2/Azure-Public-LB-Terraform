@@ -1,6 +1,6 @@
 # Create Azure Public Load Balancer using Terraform
 
-** There will be _ objectives for this lab:**
+**There will be _ objectives for this lab:**
 * Create resource group
 * Create Load Balancer, Bastion, and NAT Gateway Public IPs
 * Create Vnet
