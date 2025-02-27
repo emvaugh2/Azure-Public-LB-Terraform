@@ -1,7 +1,7 @@
 variable "rg" {
     description = "The name of the Azure Resource Group"
     type = string
-    default = "CreatePubLBQS-rg"
+    default = "CreatePubLBQStest-rg"
 }
 
 variable "loc" {
