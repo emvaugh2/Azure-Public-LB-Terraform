@@ -74,7 +74,7 @@ variable "lbhp" {
 variable "nsg" {
     description = "The name of the network security group"
     type = string
-    default = "myNSG
+    default = "myNSG"
 }
 
 # Azure Bastion host name variable
