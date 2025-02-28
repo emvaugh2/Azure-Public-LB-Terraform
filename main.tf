@@ -179,3 +179,11 @@ resource "azurerm_lb_rule" "lbrule" {
 }
 
 # Creates Azure Bastion host
+
+resource "azurerm_bastion_host" "bastion" {
+    namme = myBastionHost
+    subnet_id = azurerm_subnet.bastionsubnet.id
+    public_ip_address_id = azurerm_public_ip.bpip.id
+
+    depends_on = [azurerm_subnet.bastionsubnet]
+}
