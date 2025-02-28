@@ -232,7 +232,7 @@ resource "azurerm_windows_virtual_machine" "vm2" {
     size = "Standard_DS1_v2"
 
     os_disk {
-        name = "myOsDisk1"
+        name = "myOsDisk2"
         caching = "ReadWrite"
         storage_account_type = "Premium_LRS"
     }
