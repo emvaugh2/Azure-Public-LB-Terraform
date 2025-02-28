@@ -194,7 +194,7 @@ resource "azurerm_lb_rule" "lbrule" {
 #    depends_on = [azurerm_subnet.bastionsubnet]
 #}
 
-# Creates the virtual machines (VM)
+# Creates the virtual machines
 resource "azurerm_windows_virtual_machine" "vm1" {
     name = var.vm1
     location = var.loc
@@ -221,7 +221,6 @@ resource "azurerm_windows_virtual_machine" "vm1" {
 }
 
 
-# Creates the virtual machines (VM)
 resource "azurerm_windows_virtual_machine" "vm2" {
     name = var.vm2
     location = var.loc
@@ -247,4 +246,37 @@ resource "azurerm_windows_virtual_machine" "vm2" {
 
 }
 
+# Add VM NICs to the Load Balancer backend pool
+resource "azurerm_network_interface_backend_address_pool_association" "backend_assoc_1" {
+    network_interface_id = azurerm_network_interface.nic1.id
+    ip_configuration_name = "ipconfig1"
+    backend_address_pool_id = azurerm_lb_backend_address_pool.myBackEndPool.id
+}
 
+resource "azurerm_network_interface_backend_address_pool_association" "backend_assoc_2" {
+    network_interface_id = azurerm_network_interface.nic2.id
+    ip_configuration_name = "ipconfig1"
+    backend_address_pool_id = azurerm_lb_backend_address_pool.myBackEndPool.id
+}
+
+# Creates the NAT Gateway
+resource "azurerm_nat_gateway" "nat" {
+    name = var.nat
+    location = var.loc
+    resource_group_name = var.rg
+    idle_timeout_in_minutes = 10
+
+    depends_on = [azurerm_public_ip.natpip]
+}
+
+# Associates the NAT Gateway with a public IP
+resource "azurerm_nat_gateway_public_ip_association" "nat_pip_assoc" {
+    nat_gateway_id = azurerm_nat_gateway.nat.id
+    public_ip_address_id = azurerm_public_ip.natpip.id
+}
+
+# Associates the NAT Gateway with the Backend subnet
+resource "azurerm_subnet_nat_gateway_association" "nat_subnet_assoc" {
+    subnet_id = azurerm_subnet.backsubnet.id
+    nat_gateway_id = azurerm_nat_gateway.nat.id
+}
