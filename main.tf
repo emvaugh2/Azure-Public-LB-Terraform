@@ -74,6 +74,8 @@ resource "azurerm_network_security_group" "nsg" {
     location = var.loc
     resource_group_name = var.rg
 
+    depends_on = [azurerm_resource_group.lb_rg]
+
     security_rule {
         name = "myNSGRuleHTTP"
         priority = 200
