@@ -89,6 +89,8 @@ resource "azurerm_network_security_group" "nsg" {
     }
 }
 
+# Creates the Network Interfaces (NICs) for both VMs
+
 resource "azurerm_network_interface" "nic1" {
     name = var.nic1
     location = var.loc
@@ -113,3 +115,65 @@ resource "azurerm_network_interface" "nic2" {
         private_ip_address_allocation = "Dynamic"
     }
 }
+
+# Associates the NICs to the Network Security Group (NIC)
+
+resource "azurerm_network_interface_security_group_association" "nsg_assoc_1" {
+    network_interface_id = azurerm_network_interface.nic1.id
+    network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+resource "azurerm_network_interface_security_group_association" "nsg_assoc_2" {
+    network_interface_id = azurerm_network_interface.nic2.id
+    network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+# Creates the Load Balancer and FrontEnd IP
+
+resource "azurerm_lb" "lb" {
+    name = var.lb
+    location = var.loc
+    resource_group_name = var.rg
+    sku = "Standard"
+    
+    frontend_ip_configuration {
+        name = var.frontend
+        public_ip_address_id = azurerm_public_ip.lbpip.id
+    }
+}
+
+# Creates the Load Balancer Backend Pool
+
+resource "azurerm_lb_backend_address_pool" "myBackEndPool" {
+    loadbalancer_id = azurerm_lb.lb.id
+    name = var.backend
+
+    depends_on = [azurerm_lb.lb]
+}
+
+# Creates the Load Balancer Health Probe
+resource "azurerm_lb_probe" "lbhp" {
+    loadbalancer_id = azurerm_lb.lb.id
+    name = var.lbhp
+    protocol = "Tcp"
+    port = 80
+
+    depends_on = [azurerm_lb.lb]
+}
+
+# Creates the Load Balancer HTTP rule 
+resource "azurerm_lb_rule" "lbrule" {
+    loadbalancer_id = azurerm_lb.lb.id
+    name = "myHTTPRule"
+    protocol = "Tcp"
+    frontend_port = 80
+    backend_port = 80
+    frontend_ip_configuration_name = var.frontend 
+    backend_address_pool_ids =  azurerm_lb_backend_address_pool.myBackEndPool.id
+    probe_id = azurerm_lb_probe.lbhp.id
+    disable_outbound_snat = true
+    ideal_timeout_in_minutes = 15
+    enable_tcp_reset = true
+}
+
+# Creates Azure Bastion host

@@ -70,6 +70,20 @@ variable "lbhp" {
     default = "myHealthProbe"
 }
 
+# Load Balancer Frontend name variable
+variable "frontend" {
+    description = "The load balancer's frontend name."
+    type = string
+    default = "myFrontEnd"
+}
+
+# Load Balancer Backend Pool name variable
+variable "backend" {
+    description = "The load balancer's Backend pool name."
+    type = string
+    default = "myBackEndPool"
+}
+
 # Network Security Group name variable
 variable "nsg" {
     description = "The name of the network security group"
@@ -84,7 +98,6 @@ variable "bastion" {
     default = "myBastionHost"
 }
 
-################################ Finish the stuff below
 
 # Network Interface 1 name variable
 variable "nic1" {
