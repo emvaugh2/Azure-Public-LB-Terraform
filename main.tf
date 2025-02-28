@@ -12,6 +12,8 @@ resource "azurerm_virtual_network" "vnet" {
     resource_group_name = var.rg
     address_space = ["10.0.0.0/16"]
 
+    depends_on = [azurerm_resource_group.lb_rg]
+
 }
     
 # Creates the Backend pool subnet
@@ -20,6 +22,8 @@ resource "azurerm_subnet" "backsubnet" {
     resource_group_name = var.rg
     virtual_network_name = var.vnet
     address_prefixes = ["10.1.0.0/24"]
+
+    depends_on = [azurerm_virtual_network.vnet]
 }
 
 # Creates the Azure Bastion subnet
@@ -28,6 +32,8 @@ resource "azurerm_subnet" "bastionsubnet" {
     resource_group_name = var.rg
     virtual_network_name = var.vnet
     address_prefixes = ["10.1.1.0/27"]
+
+    depends_on = [azurerm_virtual_network.vnet]
 }
 
 
@@ -39,6 +45,8 @@ resource "azurerm_public_ip" "lbpip" {
     resource_group_name = var.rg
     location = var.loc
     allocation_method = "Static"
+
+    depends_on = [azurerm_resource_group.lb_rg]
 }
 
 resource "azurerm_public_ip" "bpip" {
@@ -46,6 +54,8 @@ resource "azurerm_public_ip" "bpip" {
     resource_group_name = var.rg
     location = var.loc
     allocation_method = "Static"
+
+    depends_on = [azurerm_resource_group.lb_rg]
 }
 
 resource "azurerm_public_ip" "natpip" {
@@ -53,6 +63,8 @@ resource "azurerm_public_ip" "natpip" {
     resource_group_name = var.rg
     location = var.loc
     allocation_method = "Static"
+
+    depends_on = [azurerm_resource_group.lb_rg]
 }
 
 # Creates the Network Security Group
