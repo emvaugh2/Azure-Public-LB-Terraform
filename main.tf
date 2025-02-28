@@ -199,8 +199,8 @@ resource "azurerm_windows_virtual_machine" "vm1" {
     name = var.vm1
     location = var.loc
     resource_group_name = var.rg
-    admin_username = azureuser
-    admin_password = azureuser1
+    admin_username = "azureuser"
+    admin_password = "azureuser1"
     network_interface_ids = [azurerm_network_interface.nic1.id]
     size = "Standard_DS1_v2"
 
@@ -226,8 +226,8 @@ resource "azurerm_windows_virtual_machine" "vm2" {
     name = var.vm2
     location = var.loc
     resource_group_name = var.rg
-    admin_username = azureuser
-    admin_password = azureuser1
+    admin_username = "azureuser"
+    admin_password = "azureuser1"
     network_interface_ids = [azurerm_network_interface.nic1.id]
     size = "Standard_DS1_v2"
 
