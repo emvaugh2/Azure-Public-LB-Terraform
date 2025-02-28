@@ -280,3 +280,36 @@ resource "azurerm_subnet_nat_gateway_association" "nat_subnet_assoc" {
     subnet_id = azurerm_subnet.backsubnet.id
     nat_gateway_id = azurerm_nat_gateway.nat.id
 }
+
+# Install IIS to handle public webpage for index.html
+resource "azurerm_virtual_machine_extension" "vmex" {
+    name = var.vm1
+    virtual_machine_id = azurerm_windows_virtual_machine.vm1.id
+    publisher = "Microsoft.Azure.Extensions"
+    type = "CustomScript"
+    type_handler_version = "1.8"
+
+    settings = <<settings
+    {
+        ""
+    }
+SETTINGS
+
+    depends_on = [azurerm_windows_virtual_machine.vm1]
+}
+
+resource "azurerm_virtual_machine_extension" "vmex" {
+    name = var.vm1
+    virtual_machine_id = azurerm_windows_virtual_machine.vm2.id
+    publisher = "Microsoft.Azure.Extensions"
+    type = "CustomScript"
+    type_handler_version = "1.8"
+
+    settings = <<SETTINGS
+    {
+        "commandToExecute":"powershell Add-WindowsFeature Web-Server; powershell Add-Content -Path \"C:\\inetpub\\wwwroot\\Default.htm\" -Value $($env:computername)"
+    }
+SETTINGS
+
+    depends_on = [azurerm_windows_virtual_machine.vm2]
+}
