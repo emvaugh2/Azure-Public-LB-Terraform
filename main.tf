@@ -169,7 +169,7 @@ resource "azurerm_lb_rule" "lbrule" {
     frontend_port = 80
     backend_port = 80
     frontend_ip_configuration_name = var.frontend 
-    backend_address_pool_ids =  azurerm_lb_backend_address_pool.myBackEndPool.id
+    backend_address_pool_ids =  [azurerm_lb_backend_address_pool.myBackEndPool.id]
     probe_id = azurerm_lb_probe.lbhp.id
     disable_outbound_snat = true
     idle_timeout_in_minutes = 15
