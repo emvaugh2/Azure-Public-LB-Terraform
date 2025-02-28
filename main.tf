@@ -104,6 +104,7 @@ resource "azurerm_network_interface" "nic2" {
     location = var.loc
     resource_group_name = var.rg
 
+
     ip_configuration {
         name = "ipconfig1"
         subnet_id = azurerm_subnet.backsubnet.id
