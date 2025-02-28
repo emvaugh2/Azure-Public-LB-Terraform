@@ -282,7 +282,7 @@ resource "azurerm_subnet_nat_gateway_association" "nat_subnet_assoc" {
 }
 
 # Install IIS to handle public webpage for index.html
-resource "azurerm_virtual_machine_extension" "vmex" {
+resource "azurerm_virtual_machine_extension" "vmex1" {
     name = var.vm1
     virtual_machine_id = azurerm_windows_virtual_machine.vm1.id
     publisher = "Microsoft.Azure.Extensions"
@@ -298,8 +298,8 @@ SETTINGS
     depends_on = [azurerm_windows_virtual_machine.vm1]
 }
 
-resource "azurerm_virtual_machine_extension" "vmex" {
-    name = var.vm1
+resource "azurerm_virtual_machine_extension" "vmex2" {
+    name = var.vm2
     virtual_machine_id = azurerm_windows_virtual_machine.vm2.id
     publisher = "Microsoft.Azure.Extensions"
     type = "CustomScript"
