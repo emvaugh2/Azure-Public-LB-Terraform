@@ -172,8 +172,10 @@ resource "azurerm_lb_rule" "lbrule" {
     backend_address_pool_ids =  azurerm_lb_backend_address_pool.myBackEndPool.id
     probe_id = azurerm_lb_probe.lbhp.id
     disable_outbound_snat = true
-    ideal_timeout_in_minutes = 15
+    idle_timeout_in_minutes = 15
     enable_tcp_reset = true
+
+    depends_on = [azurerm_lb.lb]
 }
 
 # Creates Azure Bastion host
