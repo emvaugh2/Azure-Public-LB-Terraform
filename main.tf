@@ -228,7 +228,7 @@ resource "azurerm_windows_virtual_machine" "vm2" {
     resource_group_name = var.rg
     admin_username = "azureuser"
     admin_password = "GetMoneyWithCloud1~"
-    network_interface_ids = [azurerm_network_interface.nic1.id]
+    network_interface_ids = [azurerm_network_interface.nic2.id]
     size = "Standard_DS1_v2"
 
     os_disk {
