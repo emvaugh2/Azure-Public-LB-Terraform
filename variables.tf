@@ -3,7 +3,7 @@
 variable "rg" {
     description = "The name of the Azure Resource Group"
     type = string
-    default = "CreatePubLB"
+    default = "EVPublicLBLab"
 }
 
 # Location variable

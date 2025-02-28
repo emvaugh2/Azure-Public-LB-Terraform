@@ -180,16 +180,71 @@ resource "azurerm_lb_rule" "lbrule" {
 
 # Creates Azure Bastion host
 
-resource "azurerm_bastion_host" "bastion" {
-    resource_group_name = var.rg
+#resource "azurerm_bastion_host" "bastion" {
+#    resource_group_name = var.rg
+#    location = var.loc
+#    name = "myBastionHost"
+#    
+#    ip_configuration {
+#        subnet_id = azurerm_subnet.bastionsubnet.id
+#        public_ip_address_id = azurerm_public_ip.bpip.id
+#        name = "AzureBastionSubnet"
+#    }
+#    
+#    depends_on = [azurerm_subnet.bastionsubnet]
+#}
+
+# Creates the virtual machines (VM)
+resource "azurerm_windows_virtual_machine" "vm1" {
+    name = var.vm1
     location = var.loc
-    name = "myBastionHost"
-    
-    ip_configuration {
-        subnet_id = azurerm_subnet.bastionsubnet.id
-        public_ip_address_id = azurerm_public_ip.bpip.id
-        name = "AzureBastionSubnet"
+    resource_group_name = var.rg
+    admin_username = azureuser
+    admin_password = azureuser1
+    network_interface_ids = [azurerm_network_interface.nic1.id]
+    size = "Standard_DS1_v2"
+
+    os_disk {
+        name = "myOsDisk1"
+        caching = "ReadWrite"
+        storage_account_type = "Premium_LRS"
     }
-    
-    depends_on = [azurerm_subnet.bastionsubnet]
+
+    source_image_reference {
+        publisher = "MicrosoftWindowsServer"
+        offer = "WindowsServer"
+        sku = "2019-datacenter-gensecond"
+        version = "latest"
+    }
+    depends_on = [azurerm_network_interface.nic1]
+
 }
+
+
+# Creates the virtual machines (VM)
+resource "azurerm_windows_virtual_machine" "vm2" {
+    name = var.vm2
+    location = var.loc
+    resource_group_name = var.rg
+    admin_username = azureuser
+    admin_password = azureuser1
+    network_interface_ids = [azurerm_network_interface.nic1.id]
+    size = "Standard_DS1_v2"
+
+    os_disk {
+        name = "myOsDisk1"
+        caching = "ReadWrite"
+        storage_account_type = "Premium_LRS"
+    }
+
+    source_image_reference {
+        publisher = "MicrosoftWindowsServer"
+        offer = "WindowsServer"
+        sku = "2019-datacenter-gensecond"
+        version = "latest"
+    }
+    depends_on = [azurerm_network_interface.nic2]
+
+}
+
+
