@@ -184,8 +184,12 @@ resource "azurerm_bastion_host" "bastion" {
     resource_group_name = var.rg
     location = var.loc
     name = "myBastionHost"
-    subnet_id = azurerm_subnet.bastionsubnet.id
-    public_ip_address_id = azurerm_public_ip.bpip.id
-
+    
+    ip_configuration {
+        subnet_id = azurerm_subnet.bastionsubnet.id
+        public_ip_address_id = azurerm_public_ip.bpip.id
+        name = "AzureBastionSubnet"
+    }
+    
     depends_on = [azurerm_subnet.bastionsubnet]
 }
