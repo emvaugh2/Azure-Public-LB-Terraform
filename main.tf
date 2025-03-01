@@ -285,8 +285,8 @@ resource "azurerm_subnet_nat_gateway_association" "nat_subnet_assoc" {
 resource "azurerm_virtual_machine_extension" "vmex1" {
     name = var.vm1
     virtual_machine_id = azurerm_windows_virtual_machine.vm1.id
-    publisher = "Microsoft.Azure.Extensions"
-    type = "CustomScript"
+    publisher = "Microsoft.Compute"
+    type = "CustomScriptExtension"
     type_handler_version = "1.8"
 
     settings = <<SETTINGS
@@ -301,8 +301,8 @@ SETTINGS
 resource "azurerm_virtual_machine_extension" "vmex2" {
     name = var.vm2
     virtual_machine_id = azurerm_windows_virtual_machine.vm2.id
-    publisher = "Microsoft.Azure.Extensions"
-    type = "CustomScript"
+    publisher = "Microsoft.Compute"
+    type = "CustomScriptExtension"
     type_handler_version = "1.8"
 
     settings = <<SETTINGS
