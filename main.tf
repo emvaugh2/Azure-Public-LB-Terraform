@@ -289,9 +289,9 @@ resource "azurerm_virtual_machine_extension" "vmex1" {
     type = "CustomScript"
     type_handler_version = "1.8"
 
-    settings = <<settings
+    settings = <<SETTINGS
     {
-        ""
+        "commandToExecute":"powershell Add-WindowsFeature Web-Server; powershell Add-Content -Path \"C:\\inetpub\\wwwroot\\Default.htm\" -Value $($env:computername)"
     }
 SETTINGS
 
